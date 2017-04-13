@@ -1,0 +1,28 @@
+package:
+  name: matplotlib
+  version: 1.5.3
+
+build:
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  number: 1
+
+requirements:
+  build:
+    - python 2.7*
+    - mkl 11.3.3
+    - numpy 1.11*
+    - cycler
+    - numpy >=1.6
+    - pyparsing >=1.5.6,!=2.0.4,!=2.1.2
+    - python-dateutil
+    - pytz
+
+  run:
+    - cycler
+    - mkl 11.3.3
+    - python 2.7*
+    - numpy 1.11*
+    - pyparsing >=1.5.6,!=2.0.4,!=2.1.2
+    - python-dateutil
+    - pytz
