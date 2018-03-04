@@ -1,37 +1,84 @@
+# Full credit goes to https://github.com/conda/conda-recipes for providing this recipe.
+# It has been subsequently adapted for automated building with conda-forge.
+{% set pkg_name = "matplotlib" %}
+{% set version = "2.0.2" %}
+
 package:
-  name: matplotlib
-  version: 2.0.2
+  name: {{ pkg_name }}
+  version: {{ version }}
 
 build:
-  # If this is a new build for the same version, increment the build
-  # number. If you do not include this key, it defaults to 0.
-  number: 2
-  script: python -m pip install "matplotlib==2.0.2"
+  # Only build for `win-32` Python 2.7
+  skip: true  # [not win32 or not py27]
+  number: 3
+  script: pip install "{{ pkg_name }}=={{ version }}"
+  features:
+    - gtk2
 
 requirements:
-  build:
-    - python 2.7*
-    - cycler
-    - functools32
-    - mkl 2017.0.1
-    - numpy 1.11*
-    - pyparsing >=1.5.6,!=2.0.4,!=2.1.2
+  host:
+    - pip
+    - python
+    - setuptools
+    - backports.functools_lru_cache  # [py2k]
+    - numpy
     - python-dateutil
+    - msinttypes  # [win]
+    - cycler >=0.10
+    - pyparsing
     - pytz
+    - functools32  # [py2k]
 
   run:
-    - python 2.7*
-    - cycler
-    - functools32
-    - mkl 2017.0.1
-    - numpy 1.11*
-    - pyparsing >=1.5.6,!=2.0.4,!=2.1.2
+    - python
+    - setuptools
+    - backports.functools_lru_cache  # [py2k]
+    - numpy
+    - cycler >=0.10
     - python-dateutil
     - pytz
+    - pyparsing
+    - functools32  # [py2k]
+    - tornado
 
 test:
   requires:
-    - pycairo-gtk2
+    - pycairo-gtk2  # [win32 and py2k]
   imports:
     - matplotlib
-    - matplotlib.backends._backend_gdk
+    - matplotlib.pyplot
+    - matplotlib._cntr
+    - matplotlib._image
+    - matplotlib._path
+    - matplotlib._png
+    - matplotlib._tri
+    - matplotlib.backends._backend_agg
+    - matplotlib.backends._backend_gdk  # [win32 and py2k]
+    - matplotlib.ft2font
+    - matplotlib.ttconv
+    - mpl_toolkits
+    - pylab
+
+about:
+  home: http://matplotlib.org/
+  license: PSF-based
+  license_url: http://matplotlib.sourceforge.net/users/license.html
+  license_family: PSF
+  summary: Publication quality figures in Python
+  description: |
+    matplotlib is a python 2D plotting library which produces publication
+    quality figures in a variety of hardcopy formats and interactive
+    environments across platforms. matplotlib can be used in Python scripts,
+    the Python and IPython shell (ala MATLAB or Mathematica), web
+    application servers, and six graphical user interface toolkits.
+  dev_url: https://github.com/matplotlib/matplotlib/
+  doc_url: http://matplotlib.org/contents.html
+
+extra:
+  recipe-maintainers:
+    - cfobel
+    - mdboom
+    - ocefpaf
+    - pelson
+    - tacaswell
+    - dopplershift
